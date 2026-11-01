@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+<defs>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#273f3b"/><stop offset="1" stop-color="#577265"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#70533d"/><stop offset="1" stop-color="#30291f"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#ffe6a4" stop-opacity=".32"/><stop offset="1" stop-color="#ffe6a4" stop-opacity="0"/></radialGradient>
+ <pattern id="wallpaper" width="70" height="70" patternUnits="userSpaceOnUse"><path d="M35 20 45 35 35 50 25 35Z" stroke="#a4b69a" stroke-opacity=".12"/></pattern>
+ <pattern id="wood" width="160" height="36" patternUnits="userSpaceOnUse"><rect width="160" height="36" fill="#674a32"/><path d="M0 35H160M12 10Q70 0 150 15M0 25Q90 15 160 28" stroke="#3e2b20" stroke-opacity=".45"/></pattern>
+ <g id="bottle"><rect x="8" width="24" height="12" rx="2" fill="#bca371"/><path d="M10 12H30V23L40 33V83Q40 88 35 88H5Q0 88 0 83V33L10 23Z" fill="currentColor" stroke="#132f2b" stroke-width="3"/><rect x="4" y="46" width="32" height="26" rx="2" fill="#e6d9ac"/><path d="M14 59H26M20 53V65" stroke="#4d6551" stroke-width="3"/><path d="M7 35V43" stroke="#fff" stroke-opacity=".4" stroke-width="3"/></g>
+ <g id="shelf"><rect width="410" height="400" rx="4" fill="#382c23" stroke="#a17c4e" stroke-width="12"/><path d="M8 130H402M8 260H402M8 390H402" stroke="#9c7348" stroke-width="15"/><g color="#719e84"><use href="#bottle" x="30" y="34"/><use href="#bottle" x="90" y="34"/><use href="#bottle" x="270" y="164"/><use href="#bottle" x="330" y="164"/><use href="#bottle" x="150" y="294"/></g><g color="#bb8256"><use href="#bottle" x="210" y="34"/><use href="#bottle" x="270" y="34"/><use href="#bottle" x="40" y="164"/><use href="#bottle" x="100" y="164"/><use href="#bottle" x="270" y="294"/></g><g color="#7198a3"><use href="#bottle" x="330" y="34"/><use href="#bottle" x="180" y="164"/><use href="#bottle" x="40" y="294"/><use href="#bottle" x="330" y="294"/></g><path d="M158 122V55H178V122M183 122V40H199V122M205 382V310H224V382M230 382V320H247V382" stroke="#a99b6e" stroke-width="12"/></g>
+</defs>
+<path fill="url(#wall)" d="M0 0H1600V1000H0Z"/><path fill="url(#wallpaper)" d="M0 0H1600V720H0Z"/>
+<path fill="#27392e" d="M0 585H1600V735H0Z"/><path d="M0 590H1600M0 715H1600" stroke="#a18354" stroke-width="8"/>
+<path d="M0 20H1600M0 50H1600" stroke="#322c24" stroke-width="24"/>
+<path fill="url(#floor)" d="M0 720H1600V1000H0Z"/>
+<path d="M800 720 100 1000M800 720 450 1000M800 720 1150 1000M800 720 1500 1000M0 790H1600M0 910H1600" stroke="#b29366" stroke-opacity=".2" stroke-width="3"/>
+<use href="#shelf" x="95" y="220"/><use href="#shelf" x="1095" y="220"/>
+<path d="M620 718V204Q800 92 980 204V718" fill="#a17e50" stroke="#2a2921" stroke-width="15"/>
+<path d="M643 714V222Q800 125 957 222V714" fill="#29483f" stroke="#d0b07a" stroke-width="4"/>
+<path d="M667 456V240Q800 165 933 240V456Z" fill="#9ab6a1"/>
+<path d="M667 400 740 315 790 375 856 280 933 376V456H667Z" fill="#6a8f78"/>
+<path d="M800 200V455M665 340H935" stroke="#354c3d" stroke-width="13"/>
+<rect x="672" y="487" width="256" height="195" fill="#355749" stroke="#748263" stroke-width="4"/>
+<circle cx="914" cy="489" r="10" fill="#d9b768"/>
+<path d="M760 350 800 318 840 350" stroke="#4b4531" stroke-width="2"/><rect x="738" y="348" width="124" height="51" rx="3" fill="#f0dcaa"/><text x="800" y="381" text-anchor="middle" fill="#3f5846" font-family="Georgia,serif" font-size="24">OPEN</text>
+<rect x="117" y="124" width="360" height="62" rx="4" fill="#d9c391" stroke="#9a7547" stroke-width="6"/><text x="297" y="165" text-anchor="middle" fill="#334b3e" font-size="25" font-family="Georgia,serif" letter-spacing="5">APOTHECARY</text>
+<circle cx="1290" cy="149" r="48" fill="#dfcda0" stroke="#a17e50" stroke-width="8"/><path d="M1290 113V149L1312 163" stroke="#435b49" stroke-width="5"/>
+<ellipse cx="800" cy="180" rx="510" ry="370" fill="url(#light)"/><path d="M800 0V66" stroke="#2d2920" stroke-width="9"/><path d="M750 106 774 64H826L850 106Z" fill="#d9b66b" stroke="#6e5736" stroke-width="5"/><ellipse cx="800" cy="109" rx="45" ry="10" fill="#fff0b5"/>
+<path d="M0 890 110 800H1490L1600 890V1000H0Z" fill="url(#wood)" stroke="#30271f" stroke-width="12"/><path d="M0 895H1600" stroke="#bc9258" stroke-width="10"/>
+<g transform="translate(100 722)"><use href="#bottle" color="#82a58a"/><use href="#bottle" x="65" y="15" color="#b98a58"/></g>
+<path d="M1260 805 1300 771H1440L1475 805Z" fill="#d7c797"/><path d="M1260 805V820H1475V805M1367 774V818" stroke="#775b3b" stroke-width="5"/>
+</svg>

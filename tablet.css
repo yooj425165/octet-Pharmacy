@@ -1,0 +1,54 @@
+/* Wide touch screens also use the tablet layout; mobile overrides load last. */
+@media (min-width: 601px) and (max-width: 1024px), (min-width: 1025px) and (max-width: 1366px) and (pointer: coarse) {
+  .app {
+    padding: max(16px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    grid-template-rows: auto auto 1fr;
+    gap: 16px;
+  }
+  .game-header { position: static; flex-wrap: wrap; font-size: 20px; }
+  .game-header > span { display: block; }
+  .game-header small, .open-sign { display: none; }
+  .fullscreen-button { min-height: 48px; padding: 10px 16px; font-size: 14px; }
+  .dashboard { max-width: none; gap: 12px; padding: 12px 16px; }
+  .dashboard > div > span { font-size: 12px; }
+  .dashboard strong { font-size: 22px; }
+  .workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; align-items: start; gap: 20px; }
+  .customer-panel { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 6px auto auto; gap: 10px; }
+  .timer-label { grid-column: 1; grid-row: 1; width: 100%; padding: 10px 12px; font-size: 13px; }
+  #time { font-size: 22px; }
+  .timer-track { grid-column: 1; grid-row: 2; width: 100%; }
+  .rx-paper { grid-column: 1; grid-row: 3; padding: 16px; align-self: stretch; }
+  .rx-paper header strong { font-size: 17px; }
+  .rx-patient { font-size: 13px; gap: 8px; padding: 12px 0; }
+  .rx-stats span { font-size: 11px; }
+  .rx-stats strong { font-size: 22px; }
+  .rx-shells { font-size: 14px; }
+  .rx-paper > p:last-of-type { font-size: 15px; }
+  .atom-stage { display: none; }
+  .customer-copy { grid-column: 1; grid-row: 4; margin: 0; padding: 14px; }
+  .customer-copy::before { display: none; }
+  .customer-copy > p:last-child { font-size: 14px; }
+  .prescription-panel { min-width: 0; padding: 16px; }
+  #prescription { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .field-label { display: block; font-size: 15px; }
+  .choices { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .prescription-panel .choice { min-height: 64px; padding: 12px; gap: 12px; }
+  .choice strong, .medicine-choice strong { font-size: 16px !important; }
+  .choice > kbd, .controls > span { display: none; }
+  .medicine-box { display: none; }
+  #quantity-field, #submit { grid-column: 1; }
+  legend { font-size: 14px; }
+  .quantities { gap: 12px; }
+  .quantities button { min-height: 52px; font-size: 17px; }
+  #submit { min-height: 60px; padding: 14px; font-size: 16px; white-space: normal; }
+  .controls { justify-content: flex-end; padding-top: 16px; }
+  .controls button { min-height: 48px; min-width: 120px; font-size: 15px; }
+  .feedback { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .feedback > .primary { grid-column: 1; grid-row: auto; min-height: 56px; }
+  .game-over .primary, .game-over .secondary { min-height: 52px; }
+  .menu-buttons { display: grid; grid-template-columns: 1fr 1fr; width: min(560px, 100%); gap: 16px; }
+  .menu-buttons button { min-height: 64px; }
+  dialog { max-height: calc(100dvh - 40px); overflow: auto; }
+  dialog .primary { min-height: 52px; }
+  button { touch-action: manipulation; }
+}

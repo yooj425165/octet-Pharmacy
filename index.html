@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>옥텟 약국 · 원자들의 작은 처방전</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="immersive.css">
+  <link rel="stylesheet" href="clinic.css">
+  <link rel="stylesheet" href="play.css">
+  <link rel="stylesheet" href="tablet.css">
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="stylesheet" href="viewport.css">
+  <script src="game.js?v=2" defer></script>
+</head>
+<body>
+  <div class="pharmacy-world" aria-hidden="true"></div>
+  <section id="main-menu" class="main-menu" aria-label="메인 화면">
+    <p class="menu-kicker">A LITTLE PHARMACY, A LITTLE MAGIC</p>
+    <span class="menu-emblem" aria-hidden="true">✚</span>
+    <h1>옥텟 약국</h1>
+    <p class="menu-subtitle">불안정한 원자들이 쉬어가는 작은 약국</p>
+    <nav class="menu-buttons" aria-label="게임 메뉴">
+      <button id="start" class="primary">게임 시작 <span>▶</span></button>
+      <button id="open-guide" class="secondary">게임 설명 <span>?</span></button>
+      <button id="open-review" class="secondary">지난 오답 노트 <span>↗</span></button>
+      <button id="show-ranking" class="secondary">순위표 <span>♜</span></button>
+    </nav>
+    <p class="menu-footnote">전자 하나로 시작되는, 당신의 약사 이야기.</p>
+  </section>
+  <dialog id="guide-dialog" aria-labelledby="guide-title">
+    <br>
+    <p class="eyebrow">WELCOME, PHARMACIST</p><h2 id="guide-title">옥텟 약국은 어떤 게임인가요?</h2>
+    <p class="guide-intro">옥텟 약국은 원자 손님의 처방전을 읽고 제한 시간 안에 알맞은 처방을 내리는 과학 시간 관리 게임입니다.</p>
+    <ul>
+      <li>원자번호 1~20번 원소의 전자 수와 전하를 살펴 전자를 잃거나 얻는 약, 또는 결합할 원자를 선택하면서 옥텟 규칙과 이온결합·공유결합을 익혀요.</li>
+      <br>
+      <li>영업이 끝나면 오답 노트로 내 처방과 정답을 비교하며 이유를 이해하는 것이 이 게임의 목적입니다.</li>
+    </ul>
+    <br>
+    <hr>
+    <br>
+    <h3 class="guide-section-title">약국의 두 가지 약품</h3>
+    <div class="medicine-guide">
+      <article><div class="medicine-photo"><img src="medicine-lose.svg" alt="주황색 띠와 −e⁻ 표시가 있는 전자 잃는 약 상자" width="240" height="180"></div><h3><kbd>A</kbd> 전자 잃는 약(A키)</h3><p>선택한 개수만큼 전자를 내보내요. 중성 원자가 전자를 잃으면 <b>양이온(+)</b>이 됩니다.</p><small>예: Na → Na⁺ + e⁻</small></article>
+      <article><div class="medicine-photo"><img src="medicine-gain.svg" alt="청록색 띠와 +e⁻ 표시가 있는 전자 얻는 약 상자" width="240" height="180"></div><h3><kbd>S</kbd> 전자 얻는 약(S키)</h3><p>선택한 개수만큼 전자를 받아요. 중성 원자가 전자를 얻으면 <b>음이온(−)</b>이 됩니다.</p><small>예: Cl + e⁻ → Cl⁻</small></article>
+    </div>
+    <br>
+    <br>
+    <button id="close-guide" class="primary">알겠어요 · 메인 화면으로</button>
+  </dialog>
+  <dialog id="ranking-dialog" aria-labelledby="ranking-title">
+    <p class="eyebrow">PHARMACISTS' RECORDS</p><h2 id="ranking-title">옥텟 약국 순위표</h2>
+    <p class="ranking-note">이 브라우저에서 완료한 영업의 상위 10개 기록</p>
+    <ol id="ranking-list"></ol><p id="ranking-empty">아직 기록이 없어요. 첫 번째 약사가 되어보세요!</p>
+    <button id="close-ranking" class="primary">돌아가기</button>
+  </dialog>
+  <dialog id="review-dialog" aria-labelledby="review-title"><p class="eyebrow">LEARNING RECORD</p><h2 id="review-title">지난 오답 노트</h2><div id="saved-review"></div><button class="primary" id="close-review">닫기</button></dialog>
+  <dialog id="tutorial-dialog" aria-labelledby="tutorial-title"><p class="eyebrow">QUICK GUIDE</p><h2 id="tutorial-title">준비되면 시작하세요</h2><ol class="quick-steps"><li>처방전 확인</li><li>약과 개수 선택</li><li>처방 제출</li></ol><div class="key-guide"><p><kbd>A S D F</kbd> 선택</p><p><kbd>1–3</kbd> 전자 개수</p><p><kbd>Enter</kbd> 처방 제출</p><p><kbd>P</kbd> 잠깐 쉬기</p></div><p>버튼을 눌러도 돼요. 결과는 읽고 넘길 수 있어요.</p><button id="begin-shift" class="primary">준비됐어요 · 영업 시작 →</button></dialog>
+  <main class="app" id="game-screen" hidden>
+    <header class="game-header"><span>✚ 옥텟 약국 <small>약사의 시점</small></span><button id="fullscreen" class="fullscreen-button">⛶ 전체화면</button><div class="open-sign" id="shop-sign">영업 중<span>원자 손님을 맞이하세요</span></div></header>
+
+    <section class="dashboard" aria-label="게임 현황">
+      <div><span>오늘의 점수</span><strong id="score">0000</strong></div>
+      <div><span>맞이한 손님</span><strong><span id="round">0</span><small> 번째</small></strong></div>
+      <div><span>연속 성공</span><strong><span id="combo">0</span><small> COMBO</small></strong></div>
+      <div><span>약국 신뢰도</span><strong id="lives" aria-label="남은 기회 3회">♥ ♥ ♥</strong></div>
+    </section>
+
+    <div class="workspace">
+      <section class="customer-panel panel" aria-labelledby="customer-heading">
+        <div class="panel-heading"><h2 id="customer-heading">01 / 진료 데스크</h2><span class="tag" id="case-type">접수 대기</span></div>
+        <div class="timer-label"><span id="timer-caption">손님별 처방 제한 시간</span><strong id="time">—</strong></div>
+        <div class="timer-track" role="progressbar" aria-label="남은 처방 시간" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" id="timer-track"><div id="timer-fill"></div></div>
+        <article class="rx-paper" id="rx-paper" aria-label="손님이 제출한 처방전">
+          <header><span class="rx-mark">℞</span><div><strong>원자 진료 처방전</strong><small>OCTET · SCIENCE CLINIC</small></div><span id="rx-number"></span></header>
+          <div class="rx-patient"><span>환자명</span><b id="rx-name"></b><span>진료 구분</span><b id="rx-kind"></b></div>
+          <div class="rx-stats"><div><span>원자핵 전하</span><strong id="rx-nucleus"></strong></div><div><span>보유 전자</span><strong id="rx-electrons"></strong></div><div><span>현재 순전하</span><strong id="rx-charge"></strong></div></div>
+          <p class="rx-shells">전자 배치 <b id="rx-shells"></b></p><p id="rx-task"></p>
+          <footer>원자핵 전하 + 전자 전하 = 순전하<br>교육용 모형 · 담당 약사: 나</footer>
+        </article>
+        <div class="atom-stage" id="customer-stage"><div class="customer-sprite" id="customer-sprite" role="img" aria-label="불안정한 손님"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="atom" id="atom"><span id="symbol">Rx</span><span class="face" id="customer-face">◎ ﹏ ◉</span></div><div class="customer-body"></div><div id="handoff-paper" class="handoff-paper" aria-hidden="true" hidden><span>℞</span><i></i><i></i><i></i></div><div class="customer-shadow"></div></div><span class="stage-note" id="stage-note">안정이 필요한 당신에게</span></div>
+        <div class="customer-copy"><p class="eyebrow" id="customer-label">WELCOME TO OCTET</p><h3 id="customer-name">첫 출근을 환영해요, 약사님!</h3><p id="customer-story">전자 수를 맞추고, 어울리는 원자를 만나게 해주세요. 작은 처방으로 원자들의 하루가 달라집니다.</p></div>
+
+      </section>
+
+      <section class="prescription-panel panel" aria-labelledby="prescription-heading">
+        <div class="panel-heading"><h2 id="prescription-heading">02 / 처방 조제실</h2><span class="tag neutral">DISPENSARY</span></div>
+        <div id="arrival" role="status" hidden><p class="eyebrow">DING DONG!</p><h3>손님이 들어오고 있어요.</h3><p>손님이 처방전을 건네고 있어요. 정보를 확인하세요.</p></div>
+        <form id="prescription" hidden>
+          <p class="field-label" id="choice-label">처방을 선택하세요</p><div class="choices" id="choices"></div>
+          <fieldset id="quantity-field"><legend>전자 몇 개를 이동할까요?</legend><div class="quantities" id="quantities"><button type="button" data-quantity="1" aria-pressed="true" class="selected">1개</button><button type="button" data-quantity="2" aria-pressed="false">2개</button><button type="button" data-quantity="3" aria-pressed="false">3개</button></div></fieldset>
+          <p class="prescription-note">약 선택 → 개수 선택 → 처방 완료</p>
+          <button class="primary" type="submit" id="submit">처방 완료 <span>↗</span></button>
+        </form>
+        <div id="feedback" class="feedback" role="status" hidden><p class="eyebrow" id="result-label"></p><h3 id="result-title"></h3><p class="reaction" id="result-reaction"></p><details class="result-notes"><summary>왜 그럴까요?</summary><p id="result-explanation"></p></details><button type="button" class="primary" id="next-customer">다음 손님 →</button></div>
+        <div id="game-over" class="game-over" hidden><p class="eyebrow">TODAY'S REPORT</p><h3>오늘의 영업을 마쳤어요.</h3><strong class="final-score" id="final-score"></strong><p id="final-detail"></p><p id="best-score"></p><section class="review-section"><h3>오늘의 오답 노트</h3><p id="save-status"></p><div id="review-list"></div></section><button class="primary" id="restart">다시 문 열기 <span>↗</span></button><button class="secondary" id="back-menu">메인 화면으로</button></div>
+        <div class="controls"><button id="pause" disabled>일시정지</button><span>A / S / D / F 선택 · 숫자키는 개수만 · Enter 처방 · P 일시정지</span></div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,138 @@
+/* Final layout constraints: reserve space for actions before sizing content. */
+html, body { height: 100%; min-height: 0; overflow: hidden; }
+.main-menu, .app {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+}
+.main-menu { gap: clamp(4px, 1.5dvh, 14px); overflow: auto; }
+.main-menu > * { flex-shrink: 0; margin-top: 0; margin-bottom: 0; }
+.menu-emblem { font-size: clamp(24px, 5dvh, 48px); }
+.main-menu h1 { font-size: clamp(42px, 10dvh, 96px); line-height: 1.15; }
+.menu-subtitle { font-size: 14px; }
+.menu-buttons { display: grid; grid-template-columns: 1fr 1fr; width: min(520px, 100%); gap: 12px; }
+.menu-buttons button { min-height: 52px; padding: 12px 18px; font-size: 16px; }
+.menu-kicker { font-size: 10px; letter-spacing: 2px; }
+.menu-footnote { font-size: 10px; }
+.app { max-width: 1440px; grid-template-rows: auto auto minmax(0, 1fr); gap: 8px; overflow: hidden; }
+.game-header { position: static; flex-wrap: nowrap; gap: 10px; font-size: 18px; }
+.game-header > span { display: block; }
+.game-header small, .open-sign { display: none; }
+.fullscreen-button { min-height: 44px; padding: 8px 12px; }
+.dashboard { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: none; width: 100%; gap: 8px; padding: 6px 12px; margin: 0; }
+.dashboard > div > span { font-size: 11px; margin-bottom: 2px; }
+.dashboard strong { font-size: 20px; }
+.workspace { min-height: 0; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); align-items: stretch; gap: 14px; overflow: hidden; }
+.customer-panel { min-height: 0; min-width: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 5px minmax(0, 1fr); gap: 8px; overflow: hidden; }
+.timer-label { grid-column: 1; grid-row: 1; width: 100%; padding: 6px 10px; font-size: 13px; }
+#time { font-size: 20px; }
+.timer-track { grid-column: 1; grid-row: 2; width: 100%; }
+.rx-paper { grid-column: 1; grid-row: 3; min-height: 0; max-height: none; align-self: stretch; overflow: auto; padding: clamp(12px, 2dvh, 22px); overscroll-behavior: contain; }
+.atom-stage, .customer-copy { display: none; }
+.rx-paper header { padding-bottom: 8px; }
+.rx-patient { padding: 10px 0; gap: 6px; }
+.rx-stats { margin-top: 10px; }
+.rx-shells { margin: 8px 0; padding: 8px 0; }
+.rx-paper > p:last-of-type { font-size: 16px; line-height: 1.6; margin: 8px 0; }
+.prescription-panel { display: flex; flex-direction: column; min-height: 0; min-width: 0; max-height: none; overflow: hidden; padding: 12px; border-top-width: 6px; }
+#prescription { flex: 1; min-height: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto auto; gap: 12px; align-items: stretch; }
+.field-label { display: block; grid-column: 1; margin: 0; }
+.choices { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(52px, 1fr); gap: 10px; min-height: 0; overflow: auto; padding: 4px; }
+.prescription-panel .choice { min-height: 52px; padding: 10px; gap: 8px; }
+.choice strong, .medicine-choice strong { font-size: 16px !important; overflow-wrap: anywhere; }
+.choice > kbd, .medicine-box { display: none; }
+.choice-icon { min-width: 24px; font-size: 24px; }
+#quantity-field { grid-column: 1; min-width: 0; }
+legend { font-size: 13px; margin-bottom: 6px; }
+.quantities { gap: 10px; }
+.quantities button { min-height: 48px; padding: 8px; font-size: 16px; }
+#submit { grid-column: 1; min-height: 56px; padding: 10px; font-size: 16px; white-space: normal; }
+/* Keep the submit row anchored when a question has no quantity selector. */
+#quantity-field[hidden] + .prescription-note + #submit { grid-column: 1; grid-row: 4; }
+.controls { flex: 0 0 auto; margin-top: 8px; padding-top: 0; justify-content: flex-end; }
+.controls button { min-width: 110px; width: auto; min-height: 44px; font-size: 14px; }
+.controls > span { display: none; }
+.feedback { flex: 1; min-height: 0; overflow: auto; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 10px; }
+.feedback > .primary { grid-column: 1; grid-row: auto; width: 100%; min-height: 52px; position: sticky; bottom: 0; }
+.review-mode .workspace { display: block; min-height: 0; height: 100%; overflow: hidden; }
+.review-mode .prescription-panel { height: 100%; overflow: auto; }
+.review-mode .game-over { flex-shrink: 0; width: 100%; }
+button { touch-action: manipulation; }
+
+@media (max-height: 600px) {
+  .main-menu { gap: 8px; }
+  .menu-emblem, .menu-kicker, .menu-footnote { display: none; }
+  .main-menu h1 { font-size: 44px; }
+  .app { gap: 5px; }
+  .game-header { font-size: 16px; }
+  .dashboard { padding: 4px 10px; }
+  .dashboard strong { font-size: 17px; }
+  .workspace { gap: 10px; }
+  .prescription-panel { padding: 8px; }
+  #prescription { gap: 6px; }
+  .choices { gap: 6px; grid-auto-rows: minmax(44px, 1fr); }
+  .prescription-panel .choice { min-height: 44px; padding: 6px; }
+  .choice strong, .medicine-choice strong { font-size: 14px !important; }
+  .quantities button, #submit { min-height: 44px; }
+  .controls { margin-top: 5px; }
+  .rx-paper { padding: 10px; }
+}
+
+@media (max-width: 600px) and (min-height: 501px) {
+  .app { padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); gap: 5px; }
+  .game-header { font-size: 16px; }
+  .dashboard { padding: 4px 8px; gap: 4px; }
+  .dashboard > div > span { font-size: 10px; }
+  .dashboard strong { font-size: 17px; }
+  .dashboard small { font-size: 8px; }
+  .workspace { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
+  .customer-panel { gap: 4px; }
+  .timer-label { padding: 3px 8px; font-size: 12px; }
+  #time { font-size: 18px; }
+  .rx-paper { padding: 8px 10px; }
+  .rx-paper header { display: none; }
+  .rx-patient { grid-template-columns: 44px minmax(0, 1fr) 58px minmax(0, 1fr); font-size: 12px; padding: 4px 0; gap: 4px; }
+  .rx-stats { margin-top: 5px; }
+  .rx-stats > div { padding: 4px; }
+  .rx-stats strong { font-size: 18px; margin-top: 2px; }
+  .rx-shells { font-size: 13px; padding: 4px 0; margin: 4px 0; }
+  .rx-paper > p:last-of-type { font-size: 13px; line-height: 1.5; margin: 4px 0; }
+  .prescription-panel { padding: 8px; }
+  #prescription { flex: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto; gap: 8px; }
+  .field-label { display: none; }
+  .choices { grid-column: 1 / -1; grid-auto-rows: minmax(48px, auto); gap: 8px; overflow: visible; padding: 2px; }
+  .prescription-panel .choice { min-height: 48px; padding: 6px; }
+  .choice strong, .medicine-choice strong { font-size: 13px !important; }
+  .choice-icon { font-size: 20px; min-width: 20px; }
+  #quantity-field { grid-column: 1; align-self: end; }
+  legend { font-size: 11px; margin-bottom: 4px; }
+  .quantities { gap: 5px; }
+  .quantities button { min-height: 44px; padding: 6px 2px; font-size: 14px; }
+  #submit { grid-column: 2; min-height: 48px; align-self: end; font-size: 13px; padding: 8px; }
+  #quantity-field[hidden] + .prescription-note + #submit { grid-column: 1 / -1; grid-row: auto; }
+  .controls { margin-top: 6px; }
+  .controls button { min-height: 44px; width: 100%; }
+  .feedback { max-height: 32dvh; }
+}
+
+/* Short landscape windows keep both panels side by side. */
+@media (max-height: 500px) {
+  .app { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto minmax(0, 1fr); }
+  .game-header { grid-column: 2; grid-row: 1; }
+  .game-header > span { display: none; }
+  .dashboard { grid-column: 1; grid-row: 1; }
+  .workspace { grid-column: 1 / -1; grid-row: 2; }
+  .field-label { display: none; }
+  #prescription { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  .choices { grid-column: 1 / -1; }
+  #quantity-field { grid-column: 1; align-self: end; }
+  #submit { grid-column: 2; align-self: end; font-size: 13px; }
+  #quantity-field[hidden] + .prescription-note + #submit { grid-column: 1 / -1; grid-row: 2; }
+  .rx-paper header { display: none; }
+  .rx-patient { padding: 4px 0; }
+  .rx-stats { margin-top: 4px; }
+  .rx-stats > div { padding: 4px; }
+  .rx-shells { margin: 4px 0; padding: 4px 0; }
+  .rx-paper > p:last-of-type { font-size: 13px; }
+}

@@ -1,0 +1,68 @@
+/* Include landscape phones without relying on a device or browser name. */
+@media (max-width: 600px), (max-width: 960px) and (max-height: 500px) and (pointer: coarse) {
+  .app {
+    padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    grid-template-rows: auto auto 1fr;
+    gap: 10px;
+  }
+  .game-header { position: static; flex-wrap: wrap; gap: 8px; font-size: 17px; }
+  .game-header > span { display: block; }
+  .game-header small, .open-sign { display: none; }
+  .fullscreen-button { min-height: 44px; padding: 8px 12px; font-size: 12px; }
+  .dashboard { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; gap: 8px 16px; padding: 10px 14px; }
+  .dashboard > div > span { font-size: 11px; }
+  .dashboard strong { font-size: 19px; }
+  .workspace { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 14px; align-items: start; }
+  .customer-panel { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 5px auto auto; gap: 8px; }
+  .timer-label { grid-column: 1; grid-row: 1; width: 100%; padding: 8px 12px; font-size: 12px; }
+  #time { font-size: 20px; }
+  .timer-track { grid-column: 1; grid-row: 2; width: 100%; }
+  .rx-paper { grid-column: 1; grid-row: 3; padding: 12px; align-self: stretch; }
+  .rx-paper header { gap: 8px; }
+  .rx-paper header strong { font-size: 17px; }
+  .rx-paper header small { font-size: 8px; }
+  .rx-patient { grid-template-columns: 62px minmax(0, 1fr); font-size: 13px; padding: 8px 0; gap: 6px; }
+  .rx-stats span { font-size: 11px; }
+  .rx-stats strong { font-size: 21px; }
+  #rx-charge { font-size: 15px; }
+  .rx-shells { font-size: 14px; padding: 8px 0; }
+  .rx-paper > p:last-of-type { font-size: 14px; line-height: 1.6; }
+  .atom-stage { display: none; }
+  .customer-copy { grid-column: 1; grid-row: 4; padding: 10px 12px; margin: 0; }
+  .customer-copy::before { display: none; }
+  .customer-copy > p:last-child { font-size: 13px; }
+  .prescription-panel { min-width: 0; padding: 12px; }
+  #prescription { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .field-label { display: block; font-size: 14px; }
+  .choices { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .prescription-panel .choice { min-height: 64px; padding: 10px 8px; gap: 6px; }
+  .choice strong, .medicine-choice strong { font-size: 14px !important; overflow-wrap: anywhere; }
+  .choice-icon { min-width: 24px; font-size: 22px; }
+  .choice > kbd, .medicine-box, .controls > span { display: none; }
+  #quantity-field, #submit { grid-column: 1; }
+  legend { font-size: 13px; margin-bottom: 8px; }
+  .quantities { gap: 10px; }
+  .quantities button { min-height: 48px; font-size: 16px; }
+  #submit { min-height: 56px; padding: 12px; font-size: 15px; white-space: normal; }
+  .controls { padding-top: 12px; }
+  .controls button { width: 100%; min-height: 44px; font-size: 14px; }
+  .feedback { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .feedback > .primary { grid-column: 1; grid-row: auto; min-height: 52px; }
+  .game-over .primary, .game-over .secondary { width: 100%; min-height: 52px; margin: 12px 0 0; }
+  .main-menu { padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  .menu-buttons { display: grid; grid-template-columns: minmax(0, 1fr); width: min(360px, 100%); gap: 12px; }
+  .menu-buttons button { min-height: 56px; }
+  .menu-kicker { letter-spacing: 2px; line-height: 1.8; }
+  dialog { max-width: calc(100% - 24px); max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); overflow: auto; padding: 20px; }
+  #tutorial-dialog { padding: 20px; }
+  .quick-steps { flex-wrap: wrap; gap: 6px 24px; font-size: 13px; }
+  .key-guide { display: none; }
+  dialog .primary { min-height: 52px; }
+  button { touch-action: manipulation; }
+}
+
+@media (min-width: 601px) and (max-width: 960px) and (max-height: 500px) and (pointer: coarse) {
+  .workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; }
+  .dashboard { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .choices { grid-template-columns: minmax(0, 1fr); }
+}
