@@ -1,8 +1,20 @@
 /* Final layout constraints: reserve space for actions before sizing content. */
+.controls:has(#next-customer[hidden]) { display: none; }
+/* Keep timer thickness independent of the surrounding device grid. */
+.customer-panel { grid-template-rows: auto 16px minmax(0, 1fr) !important; }
+.timer-track { height: 16px; border: 2px solid #f5d488; border-radius: 8px; background: #15251e; box-shadow: 0 2px 8px #0008; overflow: hidden; }
+#timer-fill { height: 100%; background: repeating-linear-gradient(120deg, #a5df84 0 12px, #78bc64 12px 24px); border-radius: 5px; }
+.timer-track.urgent { border-color: #ffb48b; animation: timer-shake .65s ease-in-out infinite; }
+.timer-track.urgent #timer-fill { background: #f17b51; box-shadow: 0 0 14px #ffb057; }
+@keyframes timer-shake { 0%, 80%, 100% { transform: translateX(0); } 85% { transform: translateX(-2px); } 95% { transform: translateX(2px); } }
+@media (prefers-reduced-motion: reduce) { .timer-track.urgent { animation: none; } }
+.result-notes h4 { margin: 4px 0; color: #ffe3a0; font-size: 15px; }
+.result-notes p { margin: 6px 0; font-size: 14px; line-height: 1.6; }
 html, body { height: 100%; min-height: 0; overflow: hidden; }
 .main-menu, .app {
   height: 100vh;
   height: 100dvh;
+  height: var(--visible-height, 100dvh);
   min-height: 0;
   padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
 }
@@ -135,4 +147,178 @@ button { touch-action: manipulation; }
   .rx-stats > div { padding: 4px; }
   .rx-shells { margin: 4px 0; padding: 4px 0; }
   .rx-paper > p:last-of-type { font-size: 13px; }
+}
+
+/* Tablet actions have their own rows, independent of prescription length. */
+@media (min-width: 601px) and (max-width: 1366px) {
+  .app { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto minmax(0, 1fr); }
+  .game-header { grid-column: 2; grid-row: 1; }
+  .game-header > span { display: none; }
+  .dashboard { grid-column: 1; grid-row: 1; }
+  .workspace { grid-column: 1 / -1; grid-row: 2; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .prescription-panel { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
+  #prescription {
+    grid-row: 1;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+  .field-label { grid-column: 1 / -1; }
+  .choices { grid-column: 1 / -1; grid-row: 2; align-content: center; grid-auto-rows: minmax(56px, auto); }
+  .prescription-panel .choice { min-height: 56px; }
+  #quantity-field { grid-column: 1; grid-row: 3; align-self: end; }
+  .quantities { gap: 6px; }
+  .quantities button { min-height: 48px; }
+  #submit { grid-column: 2; grid-row: 3; align-self: end; min-height: 56px; font-size: 15px; }
+  #quantity-field[hidden] + .prescription-note + #submit { grid-column: 1 / -1; grid-row: 3; }
+  .controls { grid-row: 2; margin: 0; }
+  .controls button { width: 100%; min-height: 44px; }
+  .feedback { grid-row: 1; grid-template-rows: auto auto auto minmax(0, 1fr) auto; overflow: hidden; align-content: stretch; }
+  .feedback .result-notes { min-height: 0; overflow: auto; }
+  .feedback > .primary { grid-row: 5; position: static; align-self: end; }
+  .review-mode .prescription-panel { display: block; }
+  .game-over { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 20px; }
+  .game-over > * { grid-column: 1; }
+  .game-over > .eyebrow { grid-row: 1; }
+  .game-over > h3 { grid-row: 2; }
+  .game-over > .report-actions { grid-column: 2; grid-row: 1 / 4; align-self: start; display: flex; gap: 8px; }
+  .report-actions .primary, .report-actions .secondary { margin: 0; min-height: 48px; padding: 10px 14px; }
+  .game-over > .review-section { grid-column: 1 / -1; }
+}
+
+/* The right column shares its height between the customer and the dispensary. */
+@media (min-width: 601px) {
+  .workspace {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1.8fr);
+  }
+  .customer-panel {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    position: static;
+  }
+  .atom-stage {
+    display: flex;
+    position: absolute;
+    grid-area: auto;
+    left: calc(50% + 7px);
+    right: 0;
+    top: 0;
+    height: calc((100% - 14px) / 2.8);
+    min-height: 0;
+    margin: 0;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .customer-sprite { scale: .55; transform-origin: bottom center; }
+  .prescription-panel { grid-column: 2; grid-row: 2; }
+  #prescription { flex: none; grid-template-rows: auto auto auto; gap: 8px; }
+  .choices { grid-auto-rows: minmax(52px, auto); align-content: start; }
+  .prescription-panel .choice { min-height: 52px; }
+  .workspace > .prescription-panel { max-height: none; }
+  .feedback { max-height: 240px; }
+  .review-mode .prescription-panel { max-height: none; }
+}
+
+@media (min-width: 601px) and (max-height: 600px) {
+  .workspace { grid-template-rows: minmax(0, 1fr) minmax(0, 3fr); }
+  .atom-stage { height: calc((100% - 10px) / 4); }
+  .customer-sprite { scale: .28; }
+  .field-label { display: none; }
+  #prescription { grid-template-rows: auto auto; gap: 5px; }
+  .choices { grid-row: 1; grid-auto-rows: minmax(44px, auto); }
+  .prescription-panel .choice { min-height: 44px; }
+  #quantity-field, #submit, #quantity-field[hidden] + .prescription-note + #submit { grid-row: 2; }
+}
+
+/* The counter covers the customer's lower body, leaving the face in view. */
+@media (min-width: 601px) {
+  .workspace { grid-template-rows: minmax(0, 1fr) minmax(0, 290px); }
+  .atom-stage { height: calc(100% - 220px); overflow: visible; z-index: 0; }
+  .customer-sprite { scale: 1; }
+  .prescription-panel {
+    position: relative;
+    z-index: 1;
+    padding: 10px 12px;
+    border-top: 10px solid #d7b37c;
+    box-shadow: inset 0 3px 0 #f8dba455, 0 8px 0 #3f2c1d, 0 -6px 18px #0005;
+  }
+  #prescription { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; gap: 6px; }
+  .field-label { grid-column: 1 / -1; }
+  .choices { grid-column: 1 / -1; grid-row: 2; gap: 8px; }
+  #quantity-field { grid-column: 1; grid-row: 3; align-self: end; }
+  #submit { grid-column: 2; grid-row: 3; align-self: end; min-height: 48px; }
+  #quantity-field[hidden] + .prescription-note + #submit { grid-column: 1 / -1; grid-row: 3; }
+  .feedback { max-height: none; grid-template-rows: auto auto auto minmax(0, 1fr); gap: 4px; }
+  .controls { margin-top: 6px; }
+  #next-customer { width: 100%; min-height: 44px; justify-content: center; }
+}
+
+@media (min-width: 601px) and (max-height: 650px) {
+  .workspace { grid-template-rows: minmax(0, 1fr) minmax(0, 230px); }
+  .atom-stage { height: calc(100% - 175px); }
+  .customer-sprite { scale: .7; }
+  .field-label { display: none; }
+  #prescription { grid-template-rows: minmax(0, 1fr) auto; }
+  .choices { grid-row: 1; grid-auto-rows: minmax(44px, auto); }
+  .prescription-panel .choice { min-height: 44px; padding: 6px; }
+  #quantity-field, #submit, #quantity-field[hidden] + .prescription-note + #submit { grid-row: 2; }
+}
+
+/* Results are a brief cue; explanations remain in the saved mistake notes. */
+.feedback .result-notes, .feedback .reaction { display: none; }
+.customer-sprite.leaving { animation-duration: .5s; }
+
+/* A small counter scene above the touch controls on portrait phones. */
+@media (max-width: 600px) and (min-height: 501px) {
+  .workspace {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow: hidden;
+  }
+  .customer-panel {
+    position: static;
+    grid-template-columns: minmax(0, 1fr);
+    width: 64%;
+    z-index: auto;
+  }
+  .timer-label { font-size: 11px; gap: 4px; }
+  .rx-paper { padding: 8px; }
+  .rx-patient { grid-template-columns: 44px minmax(0, 1fr); }
+  .rx-stats { gap: 3px; }
+  .rx-stats span { font-size: 10px; }
+  .rx-stats strong { font-size: 17px; }
+  #rx-charge { font-size: 12px; }
+  .rx-shells { font-size: 12px; }
+  .rx-shells b { float: none; display: block; margin-top: 3px; }
+  .atom-stage {
+    display: flex;
+    position: absolute;
+    grid-area: auto;
+    left: 64%;
+    right: 0;
+    top: 0;
+    height: calc(100% - 140px);
+    min-height: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .customer-sprite { scale: .65; transform-origin: bottom center; }
+  .prescription-panel {
+    position: relative;
+    z-index: 1;
+    border-top: 9px solid #d7b37c;
+    box-shadow: inset 0 3px 0 #f8dba455, 0 6px 0 #3f2c1d, 0 -6px 18px #0005;
+    padding: 8px;
+  }
+  .feedback { min-height: 110px; }
+  .review-mode .customer-panel { display: none; }
 }

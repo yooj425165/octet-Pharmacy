@@ -27,7 +27,7 @@ for (const [index, [symbol, name, layers]] of elementRows.entries()) {
   if (electronCases.some(c => c.symbol === symbol)) continue;
   const base = { symbol, name, shells: layers.join(', '), story: '약사님! 오늘 하루가 엉망진창이에요. 가져온 처방전부터 봐주세요!' };
   if (['He','Ne','Ar'].includes(symbol)) {
-    electronCases.push({ ...base, kind: 'stable', answer: 'none', target: '전자 배치를 확인하고, 전자 이동이 필요한지 판단하세요.', explanation: `${name}은 이미 ${symbol === 'He' ? '첫 전자 껍질 2개(듀엣)' : '최외각 전자 8개(옥텟)'}로 채워져 있습니다. 전자를 잃거나 얻는 처방이 필요 없습니다. 손님의 감정과 전자 배치의 안정성은 별개입니다.` });
+    electronCases.push({ ...base, kind: 'stable', answer: 'none', target: '전자 배치를 확인하고, 전자 이동이 필요한지 판단하세요.', explanation: `${name}은 이미 ${symbol === 'He' ? '첫 전자 껍질 2개(듀엣)' : '최외각 전자 8개(옥텟)'}로 채워져 있습니다. 이미 안정한 전자 배치이므로 처방이 필요 없습니다.` });
   } else if (sharedCases[symbol]) {
     const spec = sharedCases[symbol];
     electronCases.push({ ...base, kind: 'shared', answer: String(spec.count), target: `${spec.product}를 만들 ${spec.partner || '수소'} 원자 수를 선택하세요.`, partner: spec.partner || '수소', explanation: spec.explanation });
@@ -39,8 +39,8 @@ for (const [index, [symbol, name, layers]] of elementRows.entries()) {
   }
 }
 const specialCases = {
-  ionic: { symbol: 'Na', name: '얼마 전 헤어진 나트륨', story: '헤어진 뒤로 자꾸 옛 애인한테 전화해요! 전화기를 숨겨도 또 찾고 있어요. 새로운 인연이 필요해요!', hint: 'Na: 최외각 전자 1개 / Cl: 최외각 전자 7개. 전자 하나가 이동하면 서로 반대 전하의 이온이 돼요.', answer: 'chlorine', explanation: '나트륨은 전자 1개를 잃어 Na⁺, 염소는 그 전자를 얻어 Cl⁻가 돼요. 두 이온은 정전기적 인력으로 결합해요. 실제 NaCl은 많은 이온이 반복 배열된 결정이에요.', reaction: 'Na → Na⁺ + e⁻  /  Cl + e⁻ → Cl⁻' },
-  covalent: { symbol: 'O', name: '화가 잔뜩 난 산소', story: '오늘 너무 화가 나서 토스트기랑 싸웠어요! 아! 너무 화가 나네 정말!!', hint: '산소의 최외각 전자는 6개, 수소는 각각 1개. 전자를 주고받지 말고 전자쌍을 공유해 보세요.', answer: 'hydrogen-two', explanation: '산소는 수소 두 원자와 각각 전자쌍 하나를 공유해 H₂O를 이뤄요. 산소 주위에는 전자 8개, 각 수소 주위에는 2개가 있게 돼요. 시원해진다는 이야기는 비유이며, 실제 물 생성 반응은 열을 방출해요.', reaction: 'H — O — H  /  공유 전자쌍 2개' }
+  ionic: { symbol: 'Na', name: '얼마 전 헤어진 나트륨', story: '헤어진 뒤로 자꾸 옛 애인한테 전화해요! 전화기를 숨겨도 또 찾고 있어요. 새로운 인연이 필요해요!', hint: 'Na: 최외각 전자 1개 / Cl: 최외각 전자 7개. 전자 하나가 이동하면 서로 반대 전하의 이온이 돼요.', answer: 'chlorine', explanation: 'Na는 전자 1개를 잃고, Cl은 얻어 Na⁺와 Cl⁻가 됩니다. 반대 전하의 인력이 이온결합을 만들며, NaCl은 이온들이 반복 배열된 결정입니다.', reaction: 'Na → Na⁺ + e⁻  /  Cl + e⁻ → Cl⁻' },
+  covalent: { symbol: 'O', name: '화가 잔뜩 난 산소', story: '오늘 너무 화가 나서 토스트기랑 싸웠어요! 아! 너무 화가 나네 정말!!', hint: '산소의 최외각 전자는 6개, 수소는 각각 1개. 전자를 주고받지 말고 전자쌍을 공유해 보세요.', answer: 'hydrogen-two', explanation: 'O는 H 두 원자와 전자쌍을 하나씩 공유해 H₂O를 만듭니다. 산소는 8개(옥텟), 수소는 각각 2개(듀엣)를 채웁니다.', reaction: 'H — O — H  /  공유 전자쌍 2개' }
 };
 const state = { phase: 'welcome', score: 0, round: 0, combo: 0, lives: 3, correct: 0, current: null, choice: null, quantity: 1, remaining: 0, duration: 0, deadline: 0, frame: null, deck: [] };
 let best = 0;
@@ -90,7 +90,8 @@ function renderTimer() {
   $('time').textContent = `${Math.max(0, state.remaining / 1000).toFixed(1)}초`;
   $('timer-fill').style.width = `${percent}%`;
   $('timer-track').setAttribute('aria-valuenow', String(Math.round(percent)));
-  $('timer-track').classList.toggle('urgent', percent < 25);
+  $('timer-track').classList.toggle('urgent', percent < 25 && state.phase === 'playing');
+  $('timer-track').setAttribute('aria-valuetext', `남은 시간 ${Math.ceil(state.remaining / 1000)}초`);
 }
 function tick() {
   if (state.phase !== 'playing') return;
@@ -181,9 +182,7 @@ function nextCustomer() {
   });
   $('submit').disabled = true;
   updateSelection();
-  $('pause').disabled = true;
-  $('pause').textContent = '일시정지';
-  $('timer-caption').textContent = '손님별 처방 제한 시간';
+  $('timer-caption').textContent = '처방 제한 시간';
   showView('arrival');
   updateDashboard();
   renderTimer();
@@ -216,7 +215,7 @@ function finish(correct, timedOut = false) {
     state.combo = 0;
   }
   $('result-label').textContent = correct ? `PRESCRIPTION COMPLETE / +${points}점` : timedOut ? 'TIME OUT / 신뢰도 −1' : 'CHECK YOUR PRESCRIPTION / 신뢰도 −1';
-  $('result-title').textContent = correct ? '처방 성공! 안정을 되찾았어요.' : timedOut ? '시간 초과 · 오답 노트에 기록했어요.' : '처방 오류 · 오답 노트에 기록했어요.';
+  $('result-title').textContent = correct ? '처방 성공! 안정을 되찾았어요.' : timedOut ? '시간 초과! 정답을 확인하세요.' : '처방 오류! 정답을 확인하세요.';
   if (!correct) {
     mistakes.push({ round: state.round, name: c.name, symbol: c.symbol, kind: c.kind,
       nucleus: atomicNumbers[c.symbol], electrons: atomicNumbers[c.symbol], charge: 0,
@@ -228,10 +227,7 @@ function finish(correct, timedOut = false) {
     ? `${c.symbol} [${shells[c.symbol]}] → ${correctLabel(c)} → ${c.ion} [${c.result.replaceAll(', ', ' · ')}]`
     : c.reaction || correctLabel(c);
   $('result-explanation').textContent = explainCase(c);
-  document.querySelector('.result-notes').open = false;
-  $('next-customer').textContent = state.lives > 0 ? '다음 손님 →' : '영업 결과 보기 →';
-  $('next-customer').disabled = true;
-  $('pause').disabled = true;
+  $('timer-track').classList.remove('urgent');
   updateDashboard();
   showView('feedback');
   setMood(correct ? 'happy' : 'furious');
@@ -244,28 +240,8 @@ function finish(correct, timedOut = false) {
     $('customer-sprite').hidden = true;
     $('stage-note').textContent = '손님이 약국을 떠났습니다';
     state.phase = 'feedback';
-    $('next-customer').disabled = false;
-    $('next-customer').focus({ preventScroll: true });
-  }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 400 : 1400);
-}
-function pauseGame() {
-  if (state.phase === 'playing') {
-    state.remaining = Math.max(0, state.deadline - performance.now());
-    if (!state.remaining) { finish(false, true); return; }
-    state.phase = 'paused';
-    cancelAnimationFrame(state.frame);
-    renderTimer();
-    $('pause').textContent = '계속하기';
-    $('timer-caption').textContent = '일시정지 · 편하게 생각해보세요';
-  } else if (state.phase === 'paused') {
-    state.phase = 'playing';
-    state.deadline = performance.now() + state.remaining;
-    $('pause').textContent = '일시정지';
-    $('timer-caption').textContent = '처방 제한 시간';
-    tick();
-  } else return;
-  document.querySelectorAll('.choice, [data-quantity]').forEach((button) => { button.disabled = state.phase === 'paused'; });
-  $('submit').disabled = state.phase === 'paused' || !state.choice;
+    if (state.lives > 0) nextCustomer(); else endGame();
+  }, 500);
 }
 function endGame() {
   if (state.phase !== 'feedback' || state.lives > 0) return;
@@ -312,12 +288,6 @@ $('back-menu').addEventListener('click', () => {
   $('start').focus({ preventScroll: true });
 });
 $('restart').addEventListener('click', startGame);
-$('pause').addEventListener('click', pauseGame);
-$('next-customer').addEventListener('click', () => {
-  if (state.phase !== 'feedback') return;
-  if (state.lives > 0) nextCustomer(); else endGame();
-});
-document.addEventListener('visibilitychange', () => { if (document.hidden && state.phase === 'playing') pauseGame(); });
 $('prescription').addEventListener('submit', (event) => {
   event.preventDefault();
   if (state.phase !== 'playing' || !state.choice) return;
@@ -351,7 +321,6 @@ function requestFullscreen() {
 $('fullscreen').addEventListener('click', requestFullscreen);
 document.addEventListener('fullscreenchange', () => {
   $('fullscreen').hidden = Boolean(document.fullscreenElement);
-  if (!document.fullscreenElement && state.phase === 'playing') pauseGame();
 });
 
 const atomicNumbers = Object.fromEntries(elementRows.map(([symbol], i) => [symbol, i + 1]));
@@ -393,7 +362,7 @@ function correctLabel(c) {
 function explainCase(c) {
   if (c.kind !== 'electron') return c.explanation;
   const total = atomicNumbers[c.symbol] + (c.action === 'lose' ? -c.count : c.count);
-  return `${c.name}의 원자핵 전하는 +${atomicNumbers[c.symbol]}, 처음 전자는 ${atomicNumbers[c.symbol]}개로 순전하가 0입니다. 전자 ${c.count}개를 ${c.action === 'lose' ? '잃으면' : '얻으면'} 전자가 ${total}개가 되어 ${c.ion} 이온이 됩니다. 전자 배치는 ${c.result}로 최외각 전자 ${total === 2 ? '2개(듀엣)' : '8개(옥텟)'}를 만족합니다. 이온의 전자 수를 다루는 단순화 모형이며 실제 결합에는 공유결합 성격과 반응 조건도 영향을 줍니다. 원자핵 전하는 그대로이며, 전자를 잃으면 양이온, 얻으면 음이온이 됩니다.`;
+  return `전자 ${c.count}개를 ${c.action === 'lose' ? '잃어' : '얻어'} ${c.ion}이 됩니다. 전자 배치 ${c.result}: 최외각 ${total === 2 ? '2개(듀엣)' : '8개(옥텟)'}. 원자핵은 그대로이며, 전자를 잃으면 양이온(+), 얻으면 음이온(−)입니다.`;
 }
 function renderMistakes(container, entries) {
   container.replaceChildren();
@@ -418,7 +387,6 @@ $('open-review').addEventListener('click', () => { renderMistakes($('saved-revie
 $('close-review').addEventListener('click', () => $('review-dialog').close());
 document.addEventListener('keydown', event => {
   if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || document.querySelector('dialog[open]')) return;
-  if (event.code === 'KeyP' && ['playing', 'paused'].includes(state.phase)) { event.preventDefault(); pauseGame(); return; }
   if (state.phase !== 'playing' || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
   const key = ({ Enter: 'enter', NumpadEnter: 'enter' })[event.code];
   const choices = document.querySelectorAll('.choice');
@@ -453,9 +421,8 @@ function handOverPrescription() {
     $('stage-note').textContent = '처방전 접수 완료 · 처방해주세요';
     state.phase = 'playing';
     showView('prescription');
-    $('pause').disabled = false;
     state.deadline = performance.now() + state.remaining;
-    if (document.hidden) pauseGame(); else tick();
+    tick();
   }).catch(() => {});
 }
 function showTutorial() {
@@ -464,7 +431,6 @@ function showTutorial() {
   $('rx-paper').style.visibility = 'hidden';
   showView('arrival');
   updateDashboard();
-  $('pause').disabled = true;
   $('tutorial-dialog').showModal();
 }
 $('begin-shift').addEventListener('click', () => {
